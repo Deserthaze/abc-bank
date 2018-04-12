@@ -46,10 +46,8 @@ public class BankTest {
         Bank bank = new Bank();
         Account checkingAccount = new Account(AccountType.MAXI_SAVINGS);
         bank.addCustomer(new Customer("Bill").openAccount(checkingAccount));
-
         checkingAccount.deposit(3000.0);
-
-        assertEquals(170.0, bank.totalInterestPaid(), DOUBLE_DELTA);
+        assertEquals(171.0, bank.totalInterestPaid(), DOUBLE_DELTA);
     }
     
     @Test
@@ -60,7 +58,9 @@ public class BankTest {
        Customer c = new Customer("Max");
        bank.addCustomer(c.openAccount(checkingAccount));
        checkingAccount.deposit(1000);
-       assertEquals(1001.0, checkingAccount.sumTransactions(), DOUBLE_DELTA);
+       bank.depositInterestEarned();
+       //0.0027* 356 we be equal to 1
+       assertEquals(1000.0027397260274, checkingAccount.sumTransactions(), DOUBLE_DELTA);       
     }
 
 }
