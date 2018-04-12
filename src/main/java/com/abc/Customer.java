@@ -85,29 +85,29 @@ public class Customer {
     }
 
     private String statementForAccount(Account a) {
-        String s = "";
-
+        	StringBuilder s = new StringBuilder();
+    	    
        //Translate to pretty account type
         switch(a.getAccountType()){
             case CHECKING:
-                s += "Checking Account\n";
+            	    s.append("Checking Account\n");
                 break;
             case SAVINGS:
-                s += "Savings Account\n";
+            	    s.append("Savings Account\n");
                 break;
             case MAXI_SAVINGS:
-                s += "Maxi Savings Account\n";
+            	    s.append("Maxi Savings Account\n");
                 break;
         }
 
         //Now total up all the transactions
         double total = 0.0;
         for (Transaction t : a.transactions) {
-            s += "  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + toDollars(t.amount) + "\n";
+            s.append("  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + toDollars(t.amount) + "\n");
             total += t.amount;
         }
-        s += "Total " + toDollars(total);
-        return s;
+        s.append("Total " + toDollars(total));
+        return s.toString();
     }
 
     private String toDollars(double d){
