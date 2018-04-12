@@ -11,14 +11,34 @@ public class Bank {
     }
 
     public void addCustomer(Customer customer) {
+       	// Make sure that customer does not exists already, Not create customer twice.
         customers.add(customer);
     }
+    
+
+    /**
+
+     * Task to be run daily
+
+     */
+
+    public void depositInterestEarned() {
+               for (Customer c: customers) {
+                              c.depositInterestEarned();;
+               }
+    }
+
+    
+    
 
     public String customerSummary() {
-        String summary = "Customer Summary";
+    	
+        StringBuilder summary = new StringBuilder("Customer Summary");
+
         for (Customer c : customers)
-            summary += "\n - " + c.getName() + " (" + format(c.getNumberOfAccounts(), "account") + ")";
-        return summary;
+            summary.append("\n - " + c.getName() + " (" + format(c.getNumberOfAccounts(), "account") + ")");
+        return summary.toString();
+
     }
 
     //Make sure correct plural of word is created based on the number passed in:
@@ -34,6 +54,8 @@ public class Bank {
         return total;
     }
 
+    
+    
     public String getFirstCustomer() {
         try {
             customers = null;

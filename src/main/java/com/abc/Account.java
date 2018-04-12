@@ -105,6 +105,27 @@ public class Account {
     
     /**
 
+    * Helper function to calculate the number of days between two dates.
+
+    *
+
+     * @param date1   first date
+
+    * @param date2       second date
+
+    * @return difference between the two dates in days
+
+    */
+
+    public static long getDateDiff(LocalDate date1, LocalDate date2) {
+
+          return ChronoUnit.DAYS.between(date1, date2);
+
+    }
+   
+    
+    /**
+
     * @return the interest rate based on the account type, amount and last withdraw date
 
     */
@@ -117,8 +138,6 @@ public class Account {
                         return 0.001;
                  else
                         return 0.002;
-
-
           case MAXI_SAVINGS:
                  if (lastWithdraw != null) {
                         LocalDate now = DateProvider.getInstance().localNow();

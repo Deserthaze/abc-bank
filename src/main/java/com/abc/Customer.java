@@ -27,6 +27,44 @@ public class Customer {
         return accounts.size();
     }
 
+    
+    /**
+
+     * Transfer from one account to another
+
+     * @param from      The account to transfer from
+
+     * @param to     The account to transfer to
+
+     * @param amount    The amount of money to transfer
+
+     */
+
+    public void Transfer(Account from, Account to, double amount) {
+    	
+               double balance = from.sumTransactions();
+               if (amount <= balance) {
+                              from.withdraw(amount);
+                              to.deposit(amount);
+               } else {
+                              throw new IllegalArgumentException("Insufficient fund");
+               }
+    }
+
+ 
+
+    /*
+
+     * This will add the interest earned to every account
+
+     */
+    public void depositInterestEarned() {
+               for (Account acc: accounts) {
+                              acc.addInterestEarned();
+               }
+    }
+    
+    
     public double totalInterestEarned() {
         double total = 0;
         for (Account a : accounts)
@@ -51,13 +89,13 @@ public class Customer {
 
        //Translate to pretty account type
         switch(a.getAccountType()){
-            case Account.CHECKING:
+            case CHECKING:
                 s += "Checking Account\n";
                 break;
-            case Account.SAVINGS:
+            case SAVINGS:
                 s += "Savings Account\n";
                 break;
-            case Account.MAXI_SAVINGS:
+            case MAXI_SAVINGS:
                 s += "Maxi Savings Account\n";
                 break;
         }

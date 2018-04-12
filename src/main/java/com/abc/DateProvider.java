@@ -1,6 +1,9 @@
 package com.abc;
 
 import java.util.Calendar;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class DateProvider {
@@ -12,7 +15,14 @@ public class DateProvider {
         return instance;
     }
 
-    public Date now() {
-        return Calendar.getInstance().getTime();
+    public LocalDate localNow() {
+    	
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+
+            Instant instant = Calendar.getInstance().getTime().toInstant();
+
+            return instant.atZone(defaultZoneId).toLocalDate();
     }
 }
+    
+    
