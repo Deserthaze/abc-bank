@@ -1,18 +1,29 @@
 package com.abc;
 
 import java.util.ArrayList;
+
+import java.time.LocalDate;
+
+import java.time.temporal.ChronoUnit;
+
+import java.util.ArrayList;
+
 import java.util.List;
+
 
 public class Account {
 
-    public static final int CHECKING = 0;
-    public static final int SAVINGS = 1;
-    public static final int MAXI_SAVINGS = 2;
+	  enum AccountType {
+          CHECKING,
+          SAVINGS,
+          MAXI_SAVINGS
+    }
 
-    private final int accountType;
+    private final AccountType accountType;
     public List<Transaction> transactions;
+    LocalDate lastWithdraw;
 
-    public Account(int accountType) {
+    public Account(AccountType accountType) {
         this.accountType = accountType;
         this.transactions = new ArrayList<Transaction>();
     }
@@ -25,13 +36,36 @@ public class Account {
         }
     }
 
-public void withdraw(double amount) {
-    if (amount <= 0) {
+    public void withdraw(double amount) {
+        if (amount <= 0) {
         throw new IllegalArgumentException("amount must be greater than zero");
-    } else {
+        } else {
         transactions.add(new Transaction(-amount));
+        lastWithdraw = DateProvider.getInstance().localNow();
+        }
     }
-}
+
+
+    /**
+
+     * Calculate the interest rate. It should be called daily using the task in the bank
+
+     * to calculate the interest earned and then deposit that money
+
+    */
+
+    public void addInterestEarned() {
+
+        double interestRate = getInterestRate();
+
+        double amount = sumTransactions();
+
+        double interestRateDaily = interestRate / 365;
+
+        double interestEarnedForDay = amount * interestRateDaily;
+
+        deposit(interestEarnedForDay);
+    }
 
     public double interestEarned() {
         double amount = sumTransactions();
@@ -41,9 +75,6 @@ public void withdraw(double amount) {
                     return amount * 0.001;
                 else
                     return 1 + (amount-1000) * 0.002;
-//            case SUPER_SAVINGS:
-//                if (amount <= 4000)
-//                    return 20;
             case MAXI_SAVINGS:
                 if (amount <= 1000)
                     return amount * 0.02;
@@ -66,8 +97,39 @@ public void withdraw(double amount) {
         return amount;
     }
 
-    public int getAccountType() {
+    public AccountType getAccountType() {
         return accountType;
+    }
+    
+    
+    
+    /**
+
+    * @return the interest rate based on the account type, amount and last withdraw date
+
+    */
+
+    private double getInterestRate() {
+          double amount = sumTransactions();
+          switch (accountType) {
+          case SAVINGS:
+                 if (amount <= 1000)
+                        return 0.001;
+                 else
+                        return 0.002;
+
+
+          case MAXI_SAVINGS:
+                 if (lastWithdraw != null) {
+                        LocalDate now = DateProvider.getInstance().localNow();
+                        long days = getDateDiff(now, lastWithdraw);
+                        if (days <= 10) {
+                              return 0.001;
+                        }
+                 }
+          default:
+                 return 0.001;
+          }
     }
 
 }
