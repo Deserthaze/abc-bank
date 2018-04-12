@@ -121,13 +121,9 @@ public class Account {
 
           return ChronoUnit.DAYS.between(date1, date2);
 
-    }
-   
-    
+    }  
     /**
-
     * @return the interest rate based on the account type, amount and last withdraw date
-
     */
 
     private double getInterestRate() {
