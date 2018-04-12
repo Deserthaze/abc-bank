@@ -59,23 +59,13 @@ public class CustomerTest {
     @Test
 
     public void testAccountTransfer() {
-
         Account checkingAccount = new Account(AccountType.CHECKING);
-
         Account savingsAccount = new Account(AccountType.SAVINGS);
-
- 
-
         Customer henry = new Customer("Henry").openAccount(checkingAccount).openAccount(savingsAccount);
-
- 
-
+        
         checkingAccount.deposit(100.0);
-
         savingsAccount.deposit(4000.0);
-
         henry.Transfer(checkingAccount, savingsAccount, 50);
-
         assertEquals("Statement for Henry\n" +
                 "\n" +
                 "Checking Account\n" +
